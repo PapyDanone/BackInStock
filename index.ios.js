@@ -1,41 +1,70 @@
 import React, { Component } from 'react';
 import { AppRegistry, Navigator, Text, View, TouchableHighlight } from 'react-native';
-import { Container, Header, Title, Content, Footer, FooterTab, Button, Icon } from 'native-base';
+import { Container, Header, Title, Content, Footer, FooterTab, Button, Icon, Spinner } from 'native-base';
 import MovieList from './components/movieList';
 import Movie from './components/movie';
+import AddMovieForm from './components/addMovieForm';
 
 class MoutzProject extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            movies: [],
+            loading: true
+        };
+
+        this.getMoviesFromApi();
+    }
+
+    getMoviesFromApi() {
+        return fetch('https://facebook.github.io/react-native/movies.json')
+            .then((response) => response.json())
+            .then((responseJson) => {
+                this.setState({
+                    movies: responseJson.movies,
+                    loading: false
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
 
     render() {
 
       const routes = [
-          {title: 'Movie List', index: 0},
+          {title: 'Movie List', index: 0 },
           {title: 'Add Movie', index: 1},
       ];
 
       return (
         <Navigator
             initialRoute={routes[0]}
-            //initialRouteStack={routes}
+            initialRouteStack={routes}
+            configureScene={this.handleTransitions}
             renderScene={(route, navigator) => {
 
                 return (
                     <Container>
                         <Header>
+                            { route.index !== 0 &&
                             <Button transparent onPress={ () => {
                                 if (route.index > 0) {
-                                    //navigator.pop();
+                                    navigator.pop();
                                 }
                             }}>
-                                <Icon name='ios-arrow-back' />
+                                <Icon name='ios-arrow-back'/>
                             </Button>
-                            <Title>Movie list</Title>
-                            <Button transparent>
-                                <Icon name='ios-menu' />
-                            </Button>
+                            }
+                            <Title>{route.title}</Title>
                         </Header>
 
                         <Content>
+                            { this.state.loading &&
+                            <Spinner color='blue' />
+                            }
+
                             {this.renderContent(route, navigator)}
                         </Content>
 
@@ -43,7 +72,7 @@ class MoutzProject extends Component {
                         <Footer>
                             <FooterTab>
                                 <Button onPress={() => {
-                                    //navigator.push(routes[1])
+                                    navigator.push(routes[1]);
                                 }}>
                                     Add Movie
                                     <Icon name='md-add-circle' />
@@ -68,11 +97,35 @@ class MoutzProject extends Component {
                         title={route.title}
                         navigator={navigator}
                         route={route}
+                        movies={this.state.movies}
                     />
                 );
+            case 1:
+                return (
+                    <AddMovieForm addMovie={ (movie) => {
+
+                        this.setState({
+                            movies: [
+                                ...this.state.movies,
+                                movie
+                            ]
+                        });
+
+                        navigator.pop();
+                    }} />
+                )
             case 2:
                 return (<Movie movie={route.movie}/>)
         }
+    }
+
+    handleTransitions(route, routeStack) {
+
+        if (route.index == 1) {
+            return Navigator.SceneConfigs.FloatFromBottom;
+        }
+
+        return Navigator.SceneConfigs.FloatFromRight;
 
     }
 }

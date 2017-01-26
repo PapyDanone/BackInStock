@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Text, View } from 'react-native';
+import { Card, CardItem, Text, Thumbnail } from 'native-base';
 
 export default class Movie extends Component {
 
@@ -9,15 +9,22 @@ export default class Movie extends Component {
 
     render() {
         return (
-            <View>
-                <Text>
-                    {this.props.movie.title}
-                </Text>
+        <Card>
+            <CardItem header>
+                <Text>{this.props.movie.title}</Text>
+            </CardItem>
 
+            <CardItem>
                 <Text>
-                    {this.props.movie.releaseYear}
+                    <Thumbnail square size={100} source={require('../img/sixkiller.jpg')} />
                 </Text>
-            </View>
+            </CardItem>
+
+            <CardItem header>
+                <Text>{this.props.movie.releaseYear}</Text>
+            </CardItem>
+
+        </Card>
         );
     }
 }

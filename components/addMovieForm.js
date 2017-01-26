@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import { List, ListItem, InputGroup, Input, Button, View } from 'native-base';
+import { List, ListItem, InputGroup, Input, Button, View, Picker, Text, Icon } from 'native-base';
+
+const Item = Picker.Item;
 
 export default class AddMovieForm extends Component {
 
@@ -9,7 +11,7 @@ export default class AddMovieForm extends Component {
 
     state = {
         title: '',
-        score: ''
+        score: '0'
     };
 
     onPressAddMovie = (event) => {
@@ -21,7 +23,7 @@ export default class AddMovieForm extends Component {
 
         this.setState({
             title: '',
-            score: ''
+            score: '0'
         });
     };
 
@@ -40,17 +42,30 @@ export default class AddMovieForm extends Component {
                     </ListItem>
 
                     <ListItem>
-                        <InputGroup>
-                            <Input inlineLabel label="Score" placeholder="0"
-                               onChangeText={ (value) => {this.setState({score: value})} }
-                               value={this.state.score}
-                            />
+                        <InputGroup iconRight>
+                            <Icon name='ios-alarm' />
+                            <Text>Score</Text>
+                            <Picker
+                                label="test"
+                                iosHeader="Select score"
+                                mode="dropdown"
+                                selectedValue={this.state.score}
+                                onValueChange={(value) => {this.setState({score: value})}}
+                                >
+                                <Item label="0" value="0" />
+                                <Item label="1" value="1" />
+                                <Item label="2" value="2" />
+                                <Item label="3" value="3" />
+                                <Item label="4" value="4" />
+                                <Item label="5" value="5" />
+                            </Picker>
+
                         </InputGroup>
                     </ListItem>
                 </List>
 
-                <Button
-                    style={{ alignSelf: 'center', marginTop: 20, marginBottom: 20 }}
+                <Button block success
+                    style={{ margin: 20 }}
                     onPress={this.onPressAddMovie.bind(this)}
                 >Add</Button>
             </View>

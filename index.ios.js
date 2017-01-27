@@ -4,6 +4,7 @@ import { Container, Header, Title, Content, Footer, FooterTab, Button, Icon, Spi
 import MovieList from './components/movieList';
 import Movie from './components/movie';
 import AddMovieForm from './components/addMovieForm';
+import SearchMovie from './components/search';
 
 class MoutzProject extends Component {
 
@@ -36,11 +37,12 @@ class MoutzProject extends Component {
       const routes = [
           {title: 'Movie List', index: 0 },
           {title: 'Add Movie', index: 1},
+          {title: 'Search Movie', index: 3},
       ];
 
       return (
         <Navigator
-            initialRoute={routes[0]}
+            initialRoute={routes[2]}
             initialRouteStack={routes}
             configureScene={this.handleTransitions}
             renderScene={(route, navigator) => {
@@ -68,7 +70,6 @@ class MoutzProject extends Component {
                             {this.renderContent(route, navigator)}
                         </Content>
 
-                        { route.index === 0 &&
                         <Footer>
                             <FooterTab>
                                 <Button onPress={() => {
@@ -78,8 +79,15 @@ class MoutzProject extends Component {
                                     <Icon name='md-add-circle' />
                                 </Button>
                             </FooterTab>
+                            <FooterTab>
+                                <Button onPress={() => {
+                                    navigator.push(routes[2]);
+                                }}>
+                                    Search Movie
+                                    <Icon name='md-search' />
+                                </Button>
+                            </FooterTab>
                         </Footer>
-                        }
 
                     </Container>
                 );
@@ -116,6 +124,8 @@ class MoutzProject extends Component {
                 )
             case 2:
                 return (<Movie movie={route.movie}/>)
+            case 3:
+                return (<SearchMovie />)
         }
     }
 

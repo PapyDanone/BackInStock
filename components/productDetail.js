@@ -39,7 +39,7 @@ export default class ProductDetail extends Component {
                         null,
                         [
                             {text: 'No', onPress: () => console.log('Cancel Pressed')},
-                            {text: 'Yes', onPress: () => this.props.deleteProduct(this.props.index)},
+                            {text: 'Yes', onPress: () => this.props.deleteProduct()},
                         ]
                     )}
                 > Delete </Button>

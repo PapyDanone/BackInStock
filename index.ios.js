@@ -6,13 +6,20 @@ import ProductList from './components/productList';
 import SearchProduct from './components/search';
 import ProductDetail from './components/productDetail';
 
+const initialState = [{
+    title: 'PS4 Pro',
+    brand: 'Sony',
+    thumbnail: 'https://images-na.ssl-images-amazon.com/images/I/41GGPRqTZtL._SL75_.jpg',
+    price: '$399.99'
+}];
+
 class MoutzProject extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            products: [],
+            products: initialState,
             loading: false
         };
     }
@@ -35,6 +42,9 @@ class MoutzProject extends Component {
     }
 
     deleteProduct(index) {
+
+        console.log('Delete product ' + index);
+
         this.setState({
             products: [
             ...this.state.products.slice(0, index),
@@ -121,13 +131,16 @@ class MoutzProject extends Component {
                         brand={route.product.brand}
                         thumbnail={route.product.thumbnail}
                         price={route.product.price}
-                        deleteProduct={this.deleteProduct.bind(this)}
+                        deleteProduct={ () => {
+                            this.deleteProduct(route.productIndex);
+                            navigator.pop();
+                        }}
                     />
                 )
             case 'product_search':
                 return (
                     <SearchProduct saveProduct={ (product) => {
-                        this.saveProduct(product)
+                        this.saveProduct(product);
                         navigator.pop();
                     }} />
                 )

@@ -53,7 +53,7 @@ var formatQueryParams = function (query, method, credentials) {
         params = setDefaultParams(params, {
             SearchIndex: 'All',
             Condition: 'All',
-            ResponseGroup: 'ItemAttributes',
+            ResponseGroup: 'OfferSummary',
             IdType: 'ASIN',
             IncludeReviewsSummary: 'True',
             TruncateReviewsAt: '1000',

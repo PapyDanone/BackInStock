@@ -11,19 +11,25 @@ const initialState = [
         title: 'PS4 Pro',
         brand: 'Sony',
         thumbnail: 'https://images-na.ssl-images-amazon.com/images/I/41GGPRqTZtL._SL160_.jpg',
-        price: '$399.99'
+        price: '$399.99',
+        isAvailable: true,
+        itemId: "B01LOP8EZC"
     },
     {
         title: 'Gravity Rush 2',
         brand: 'Sony',
         thumbnail: 'https://images-na.ssl-images-amazon.com/images/I/51ZY0kIkIgL._SL160_.jpg',
-        price: '$59.99'
+        price: '$58.99',
+        isAvailable: false,
+        itemId: "B01LOP8EZC"
     },
     {
         title: 'Ninja Turtles',
         brand: 'Sony',
         thumbnail: 'https://images-na.ssl-images-amazon.com/images/I/51p9zFaDMzL._SL160_.jpg',
-        price: '$29.99'
+        price: '$29.99',
+        isAvailable: true,
+        itemId: "B01LOP8EZC"
     },
 ];
 
@@ -145,6 +151,8 @@ class MoutzProject extends Component {
                         brand={route.product.brand}
                         thumbnail={route.product.thumbnail}
                         price={route.product.price}
+                        isAvailable={route.product.isAvailable}
+                        itemId={route.product.itemId}
                         deleteProduct={ () => {
                             this.deleteProduct(route.productIndex);
                             navigator.pop();

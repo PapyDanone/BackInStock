@@ -1,13 +1,16 @@
 import React, { Component, PropTypes } from 'react';
-import { Card, CardItem, Text, Thumbnail } from 'native-base';
+import { Alert } from 'react-native';
+import { Card, CardItem, Text, Thumbnail, Button } from 'native-base';
 
 export default class ProductDetail extends Component {
 
     static propTypes = {
+        index: PropTypes.number.isRequired,
         title: React.PropTypes.string.isRequired,
         brand: React.PropTypes.string.isRequired,
         thumbnail: React.PropTypes.string.isRequired,
         price: React.PropTypes.string.isRequired,
+        deleteProduct: PropTypes.func.isRequired
     }
 
     render() {
@@ -24,8 +27,22 @@ export default class ProductDetail extends Component {
                 <Text note>{this.props.brand}</Text>
             </CardItem>
 
-            <CardItem header>
+            <CardItem>
                 <Text>{this.props.price}</Text>
+            </CardItem>
+
+            <CardItem>
+                <Button block success style={{ marginBottom: 6 }}> Check availability </Button>
+                <Button block danger onPress={ () =>
+                    Alert.alert(
+                        'Delete product?',
+                        null,
+                        [
+                            {text: 'No', onPress: () => console.log('Cancel Pressed')},
+                            {text: 'Yes', onPress: () => this.props.deleteProduct(this.props.index)},
+                        ]
+                    )}
+                > Delete </Button>
             </CardItem>
 
         </Card>

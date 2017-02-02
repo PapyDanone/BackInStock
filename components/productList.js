@@ -13,6 +13,7 @@ export default class ProductList extends Component {
 
         this.props.navigator.push({
             index: 'product_view',
+            productIndex: productIndex,
             title: this.props.products[productIndex].title,
             product: this.props.products[productIndex]
         });
@@ -26,7 +27,7 @@ export default class ProductList extends Component {
                         <Thumbnail square size={80} source={{ uri: product.thumbnail }} />
                         <Text>{product.title}</Text>
                         <Text note>{product.brand}</Text>
-                        <Text note>{product.price}</Text>
+                        <Text>{product.price}</Text>
                     </ListItem>
                 )) }
             </List>

@@ -19,12 +19,9 @@ class MoutzProject extends Component {
 
     saveProduct = (amazonProduct) => {
 
-        console.log('Save product');
-        console.log(amazonProduct);
-
         var product = {
             title: amazonProduct.ItemAttributes.Title,
-            brand: amazonProduct.ItemAttributes.Title,
+            brand: amazonProduct.ItemAttributes.Brand,
             thumbnail: amazonProduct.SmallImage.URL,
             price: amazonProduct.ItemAttributes.ListPrice.FormattedPrice
         }
@@ -35,6 +32,14 @@ class MoutzProject extends Component {
                 product
             ]
         });
+    }
+
+    deleteProduct(index) {
+        this.setState({
+            products: [
+            ...this.state.products.slice(0, index),
+            ...this.state.products.slice(index + 1)
+        ]});
     }
 
     render() {
@@ -111,10 +116,12 @@ class MoutzProject extends Component {
             case 'product_view':
                 return (
                     <ProductDetail
+                        index={route.productIndex}
                         title={route.product.title}
                         brand={route.product.brand}
                         thumbnail={route.product.thumbnail}
                         price={route.product.price}
+                        deleteProduct={this.deleteProduct.bind(this)}
                     />
                 )
             case 'product_search':

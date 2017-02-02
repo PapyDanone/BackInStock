@@ -17,7 +17,7 @@ export default class Product extends Component {
 
         Alert.alert(
             'Save product?',
-            'My Alert Msg',
+            null,
             [
                 {text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
                 {text: 'Yes', onPress: () => this.props.saveProduct(product)},

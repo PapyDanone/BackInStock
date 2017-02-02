@@ -1,24 +1,36 @@
+import './shim';
 import React, { Component } from 'react';
 import { AppRegistry, Navigator, Text, View, TouchableHighlight } from 'react-native';
 import { Container, Header, Title, Content, Footer, FooterTab, Button, Icon, Spinner } from 'native-base';
-import MovieList from './components/movieList';
-import Movie from './components/movie';
-import AddMovieForm from './components/addMovieForm';
-import SearchMovie from './components/search';
+import ProductList from './components/productList';
+import SearchProduct from './components/search';
+import ProductDetail from './components/productDetail';
 
 class MoutzProject extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            movies: [],
-            loading: true
+            products: [],
+            loading: false
         };
 
-        this.getMoviesFromApi();
+        // this.getMoviesFromApi();
     }
 
-    getMoviesFromApi() {
+    saveProduct = (product) => {
+
+        console.log('Save product');
+
+        this.setState({
+            products: [
+                ...this.state.products,
+                product
+            ]
+        });
+    }
+
+    /*getMoviesFromApi() {
         return fetch('https://facebook.github.io/react-native/movies.json')
             .then((response) => response.json())
             .then((responseJson) => {
@@ -30,31 +42,29 @@ class MoutzProject extends Component {
             .catch((error) => {
                 console.error(error);
             });
-    }
+    }*/
 
     render() {
 
       const routes = [
-          {title: 'Movie List', index: 0 },
-          {title: 'Add Movie', index: 1},
-          {title: 'Search Movie', index: 3},
+          {title: 'My Products', index: 'product_list' },
+          {title: 'Add Product', index: 'product_add'},
+          {title: 'Search on Amazon', index: 'product_search'},
       ];
 
       return (
         <Navigator
-            initialRoute={routes[2]}
-            initialRouteStack={routes}
+            initialRoute={routes[0]}
+            // initialRouteStack={routes}
             configureScene={this.handleTransitions}
             renderScene={(route, navigator) => {
 
                 return (
                     <Container>
                         <Header>
-                            { route.index !== 0 &&
+                            { route.index !== 'product_list' &&
                             <Button transparent onPress={ () => {
-                                if (route.index > 0) {
-                                    navigator.pop();
-                                }
+                                navigator.pop();
                             }}>
                                 <Icon name='ios-arrow-back'/>
                             </Button>
@@ -73,20 +83,20 @@ class MoutzProject extends Component {
                         <Footer>
                             <FooterTab>
                                 <Button onPress={() => {
-                                    navigator.push(routes[1]);
+                                    navigator.push(routes[2]);
                                 }}>
-                                    Add Movie
+                                    Add Product
                                     <Icon name='md-add-circle' />
                                 </Button>
                             </FooterTab>
-                            <FooterTab>
+                            {/*<FooterTab>
                                 <Button onPress={() => {
                                     navigator.push(routes[2]);
                                 }}>
-                                    Search Movie
+                                    Search Product
                                     <Icon name='md-search' />
                                 </Button>
-                            </FooterTab>
+                            </FooterTab>*/}
                         </Footer>
 
                     </Container>
@@ -99,17 +109,17 @@ class MoutzProject extends Component {
     renderContent(route, navigator) {
 
         switch (route.index) {
-            case 0:
+            case 'product_list':
                 return (
-                    <MovieList
+                    <ProductList
                         title={route.title}
                         navigator={navigator}
                         route={route}
-                        movies={this.state.movies}
+                        products={this.state.products}
                     />
                 );
-            case 1:
-                return (
+            case 'product_add':
+                /*return (
                     <AddMovieForm addMovie={ (movie) => {
 
                         this.setState({
@@ -121,17 +131,22 @@ class MoutzProject extends Component {
 
                         navigator.pop();
                     }} />
+                )*/
+            case 'product_view':
+                return (<ProductDetail product={route.product}/>)
+            case 'product_search':
+                return (
+                    <SearchProduct saveProduct={ (product) => {
+                        this.saveProduct(product)
+                        navigator.pop();
+                    }} />
                 )
-            case 2:
-                return (<Movie movie={route.movie}/>)
-            case 3:
-                return (<SearchMovie />)
         }
     }
 
     handleTransitions(route, routeStack) {
 
-        if (route.index == 1) {
+        if (route.index == 'product_add') {
             return Navigator.SceneConfigs.FloatFromBottom;
         }
 

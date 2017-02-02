@@ -6,12 +6,26 @@ import ProductList from './components/productList';
 import SearchProduct from './components/search';
 import ProductDetail from './components/productDetail';
 
-const initialState = [{
-    title: 'PS4 Pro',
-    brand: 'Sony',
-    thumbnail: 'https://images-na.ssl-images-amazon.com/images/I/41GGPRqTZtL._SL75_.jpg',
-    price: '$399.99'
-}];
+const initialState = [
+    {
+        title: 'PS4 Pro',
+        brand: 'Sony',
+        thumbnail: 'https://images-na.ssl-images-amazon.com/images/I/41GGPRqTZtL._SL160_.jpg',
+        price: '$399.99'
+    },
+    {
+        title: 'Gravity Rush 2',
+        brand: 'Sony',
+        thumbnail: 'https://images-na.ssl-images-amazon.com/images/I/51ZY0kIkIgL._SL160_.jpg',
+        price: '$59.99'
+    },
+    {
+        title: 'Ninja Turtles',
+        brand: 'Sony',
+        thumbnail: 'https://images-na.ssl-images-amazon.com/images/I/51p9zFaDMzL._SL160_.jpg',
+        price: '$29.99'
+    },
+];
 
 class MoutzProject extends Component {
 
@@ -29,7 +43,7 @@ class MoutzProject extends Component {
         var product = {
             title: amazonProduct.ItemAttributes.Title,
             brand: amazonProduct.ItemAttributes.Brand,
-            thumbnail: amazonProduct.SmallImage.URL,
+            thumbnail: amazonProduct.MediumImage.URL,
             price: amazonProduct.ItemAttributes.ListPrice.FormattedPrice
         }
 

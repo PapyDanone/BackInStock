@@ -28,22 +28,23 @@ export default class Product extends Component {
 
     render() {
 
-        var price;
-        var thumbnail;
+        var price = <Text />; // weird default
+        var thumbnail = <Text />;
         var product = this.props.product;
 
+        // sanity checks
         if (product.ItemAttributes.hasOwnProperty('ListPrice')) {
             price = <Text>{product.ItemAttributes.ListPrice.FormattedPrice}</Text>
         }
 
-        if (product.hasOwnProperty('SmallImage')
+        if (product.hasOwnProperty('MediumImage')
             && product.SmallImage.hasOwnProperty('URL')) {
-            thumbnail = { uri: product.SmallImage.URL };
+            thumbnail = <Thumbnail square size={80} source={{ uri: product.MediumImage.URL }} />
         }
 
         return (
             <ListItem onPress={() => {this.saveProductDialog(product)}}>
-                { thumbnail ? <Thumbnail square size={80} source={thumbnail} /> : <Text /> }
+                {thumbnail}
                 <Text>{product.ItemAttributes.Title}</Text>
                 <Text note>{product.ItemAttributes.Brand}</Text>
                 {price}

@@ -6,25 +6,16 @@ export default class ProductList extends Component {
 
     static propTypes = {
         products: PropTypes.array.isRequired,
+        navigator: PropTypes.object.isRequired
     };
 
-    // Function to call when a new scene should be displayed
     onProductDetail = (productIndex) => {
-
-        console.log(productIndex);
 
         this.props.navigator.push({
             index: 'product_view',
-            title: this.props.products[productIndex].ItemAttributes.Title,
+            title: this.props.products[productIndex].title,
             product: this.props.products[productIndex]
         });
-    };
-
-    // Function to call to go back to the previous scene
-    onBack = () => {
-        if (this.props.route.index > 0) {
-            this.props.navigator.pop();
-        }
     };
 
     render() {
@@ -32,10 +23,10 @@ export default class ProductList extends Component {
             <List>
                 { this.props.products.map((product, index) => (
                     <ListItem onPress={() => {this.onProductDetail(index)}} key={index}>
-                        <Thumbnail square size={80} source={{ uri: product.SmallImage.URL }} />
-                        <Text>{product.ItemAttributes.Title}</Text>
-                        <Text note>{product.ItemAttributes.Brand}</Text>
-                        <Text note>{product.ItemAttributes.ListPrice.FormattedPrice}</Text>
+                        <Thumbnail square size={80} source={{ uri: product.thumbnail }} />
+                        <Text>{product.title}</Text>
+                        <Text note>{product.brand}</Text>
+                        <Text note>{product.price}</Text>
                     </ListItem>
                 )) }
             </List>

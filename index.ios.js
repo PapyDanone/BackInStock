@@ -10,17 +10,24 @@ class MoutzProject extends Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
             products: [],
             loading: false
         };
-
-        // this.getMoviesFromApi();
     }
 
-    saveProduct = (product) => {
+    saveProduct = (amazonProduct) => {
 
         console.log('Save product');
+        console.log(amazonProduct);
+
+        var product = {
+            title: amazonProduct.ItemAttributes.Title,
+            brand: amazonProduct.ItemAttributes.Title,
+            thumbnail: amazonProduct.SmallImage.URL,
+            price: amazonProduct.ItemAttributes.ListPrice.FormattedPrice
+        }
 
         this.setState({
             products: [
@@ -29,20 +36,6 @@ class MoutzProject extends Component {
             ]
         });
     }
-
-    /*getMoviesFromApi() {
-        return fetch('https://facebook.github.io/react-native/movies.json')
-            .then((response) => response.json())
-            .then((responseJson) => {
-                this.setState({
-                    movies: responseJson.movies,
-                    loading: false
-                });
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }*/
 
     render() {
 
@@ -63,9 +56,7 @@ class MoutzProject extends Component {
                     <Container>
                         <Header>
                             { route.index !== 'product_list' &&
-                            <Button transparent onPress={ () => {
-                                navigator.pop();
-                            }}>
+                            <Button transparent onPress={ () => navigator.pop() }>
                                 <Icon name='ios-arrow-back'/>
                             </Button>
                             }
@@ -114,26 +105,18 @@ class MoutzProject extends Component {
                     <ProductList
                         title={route.title}
                         navigator={navigator}
-                        route={route}
                         products={this.state.products}
                     />
                 );
-            case 'product_add':
-                /*return (
-                    <AddMovieForm addMovie={ (movie) => {
-
-                        this.setState({
-                            movies: [
-                                ...this.state.movies,
-                                movie
-                            ]
-                        });
-
-                        navigator.pop();
-                    }} />
-                )*/
             case 'product_view':
-                return (<ProductDetail product={route.product}/>)
+                return (
+                    <ProductDetail
+                        title={route.product.title}
+                        brand={route.product.brand}
+                        thumbnail={route.product.thumbnail}
+                        price={route.product.price}
+                    />
+                )
             case 'product_search':
                 return (
                     <SearchProduct saveProduct={ (product) => {
@@ -144,9 +127,9 @@ class MoutzProject extends Component {
         }
     }
 
-    handleTransitions(route, routeStack) {
+    handleTransitions(route) {
 
-        if (route.index == 'product_add') {
+        if (route.index == 'product_search') {
             return Navigator.SceneConfigs.FloatFromBottom;
         }
 

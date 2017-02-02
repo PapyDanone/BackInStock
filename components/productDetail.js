@@ -4,25 +4,28 @@ import { Card, CardItem, Text, Thumbnail } from 'native-base';
 export default class ProductDetail extends Component {
 
     static propTypes = {
-        product: React.PropTypes.object.isRequired,
+        title: React.PropTypes.string.isRequired,
+        brand: React.PropTypes.string.isRequired,
+        thumbnail: React.PropTypes.string.isRequired,
+        price: React.PropTypes.string.isRequired,
     }
 
     render() {
         return (
         <Card>
             <CardItem header>
-                <Text>{this.props.product.ItemAttributes.Title}</Text>
+                <Text>{this.props.title}</Text>
             </CardItem>
 
             <CardItem>
                 <Text>
-                    <Thumbnail square size={80} source={{ uri: this.props.product.SmallImage.URL }} />
+                    <Thumbnail square size={80} source={{ uri: this.props.thumbnail }} />
                 </Text>
-                <Text note>{this.props.product.ItemAttributes.Brand}</Text>
+                <Text note>{this.props.brand}</Text>
             </CardItem>
 
             <CardItem header>
-                <Text>{this.props.product.ItemAttributes.ListPrice.FormattedPrice}</Text>
+                <Text>{this.props.price}</Text>
             </CardItem>
 
         </Card>

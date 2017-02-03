@@ -1,13 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { InputGroup, Input, Content, List, ListItem, Text, Spinner } from 'native-base';
-import { generateQueryString } from './utils';
-import parseXML from 'react-native-xml2js';
 import Product from './product';
+import ProductApi from '../lib/productApi';
 
 var timer = null;
-var AWS_ID = 'AKIAJW54JNZN3KZKPMMA';
-var AWS_KEY = 'Su34SnsEoorEE09dXIla30JI+zfSx5WKWNKBdbEu';
-var ASSOCIATE_TAG = 'testmoutz-20';
 
 export default class SearchProduct extends Component {
 
@@ -19,12 +15,6 @@ export default class SearchProduct extends Component {
         super(props);
         console.log('search');
     }
-
-    credentials = {
-        awsId: AWS_ID,
-        awsSecret: AWS_KEY,
-        awsTag: ASSOCIATE_TAG
-    };
 
     state = {
         results: [],
@@ -38,35 +28,25 @@ export default class SearchProduct extends Component {
 
         if (value.length > 4) {
 
-            var string = generateQueryString({ Keywords: value }, 'ItemSearch', this.credentials);
-
             clearTimeout(timer);
             timer = setTimeout(() => {
+                ProductApi.searchProducts(value, (results) => {
 
-                console.log(string);
+                    console.log(results);
 
-                return fetch(string)
-                    .then(response => response.text())
-                    .then(responseXML => {
-                        parseXML.parseString(responseXML, {explicitArray: false}, (err, res) => {
-                            console.log(res);
-
-                            if (res.ItemSearchResponse.Items.hasOwnProperty('Item')) {
-                                this.setState({
-                                    results: res.ItemSearchResponse.Items.Item,
-                                    totalResults: res.ItemSearchResponse.Items.TotalResults
-                                })
-                            } else {
-                                this.setState({
-                                    results: [],
-                                    totalResults: 0
-                                })
-                            }
+                    if (results.ItemSearchResponse.Items.hasOwnProperty('Item')) {
+                        this.setState({
+                            results: results.ItemSearchResponse.Items.Item,
+                            totalResults: results.ItemSearchResponse.Items.TotalResults
                         })
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
+                    } else {
+                        this.setState({
+                            results: [],
+                            totalResults: 0
+                        })
+                    }
+                })
+
             }, 500);
         }
     }

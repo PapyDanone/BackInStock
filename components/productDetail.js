@@ -1,12 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Alert } from 'react-native';
 import { Card, CardItem, Text, Thumbnail, Button, Icon, Spinner } from 'native-base';
-import { generateQueryString } from './utils';
-import parseXML from 'react-native-xml2js';
-
-var AWS_ID = 'AKIAJW54JNZN3KZKPMMA';
-var AWS_KEY = 'Su34SnsEoorEE09dXIla30JI+zfSx5WKWNKBdbEu';
-var ASSOCIATE_TAG = 'testmoutz-20';
+import ProductApi from '../lib/productApi';
 
 export default class ProductDetail extends Component {
 
@@ -26,38 +21,21 @@ export default class ProductDetail extends Component {
         isAvailable: this.props.isAvailable
     }
 
-    credentials = {
-        awsId: AWS_ID,
-        awsSecret: AWS_KEY,
-        awsTag: ASSOCIATE_TAG
-    };
-
     checkAvailability() {
         this.setState({loading: true});
+        ProductApi.checkAvailability(this.props.itemId, this.updateAvailability.bind(this));
+    }
 
-        var string = generateQueryString({ ItemId: this.props.itemId }, 'ItemLookup', this.credentials);
+    updateAvailability(bool) {
 
-        console.log(string);
+        this.setState({
+            loading: false,
+            isAvailable: bool
+        });
 
-        return fetch(string)
-            .then(response => response.text())
-            .then(responseXML => {
-                parseXML.parseString(responseXML, {explicitArray: false}, (err, res) => {
-                    console.log(res);
-
-                    if (res.ItemLookupResponse.Items.hasOwnProperty('Item')) {
-                        console.log(res.ItemLookupResponse.Items.Item.OfferSummary.TotalNew)
-                        this.setState({
-                            isAvailable: (res.ItemLookupResponse.Items.Item.OfferSummary.TotalNew > 0)
-                        });
-                    }
-
-                    this.setState({loading: false});
-                })
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+        if (bool) {
+            console.log('Available!');
+        }
     }
 
     render() {

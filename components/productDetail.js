@@ -23,19 +23,12 @@ export default class ProductDetail extends Component {
 
     checkAvailability() {
         this.setState({loading: true});
-        ProductApi.checkAvailability(this.props.itemId, this.updateAvailability.bind(this));
-    }
-
-    updateAvailability(bool) {
-
-        this.setState({
-            loading: false,
-            isAvailable: bool
+        ProductApi.checkAvailability(this.props.itemId, (bool) => {
+            this.setState({
+                loading: false,
+                isAvailable: bool
+            });
         });
-
-        if (bool) {
-            console.log('Available!');
-        }
     }
 
     render() {

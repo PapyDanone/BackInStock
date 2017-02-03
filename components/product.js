@@ -4,10 +4,6 @@ import { ListItem, Text, Thumbnail } from 'native-base';
 
 export default class Product extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     static propTypes = {
         product: React.PropTypes.object.isRequired,
         saveProduct: React.PropTypes.func.isRequired
@@ -23,7 +19,6 @@ export default class Product extends Component {
                 {text: 'Yes', onPress: () => this.props.saveProduct(product)},
             ]
         )
-
     }
 
     render() {

@@ -10,7 +10,6 @@ export default class ProductList extends Component {
     };
 
     onProductDetail = (productIndex) => {
-
         this.props.navigator.push({
             index: 'product_view',
             productIndex: productIndex,
@@ -34,8 +33,3 @@ export default class ProductList extends Component {
         );
     }
 }
-
-ProductList.propTypes = {
-    title: PropTypes.string.isRequired,
-    navigator: PropTypes.object.isRequired,
-};

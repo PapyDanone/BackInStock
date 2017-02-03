@@ -11,11 +11,6 @@ export default class SearchProduct extends Component {
         saveProduct: React.PropTypes.func.isRequired
     }
 
-    constructor(props) {
-        super(props);
-        console.log('search');
-    }
-
     state = {
         results: [],
         totalResults: 0,
@@ -30,7 +25,7 @@ export default class SearchProduct extends Component {
             loading: true
         });
 
-        if (value.length > 4) {
+        if (value.length > 3) {
 
             clearTimeout(timer);
             timer = setTimeout(() => {
@@ -74,9 +69,11 @@ export default class SearchProduct extends Component {
                     <ListItem itemDivider>
                         <Text>{this.state.totalResults} Results</Text>
                     </ListItem>
+
                     { this.state.loading &&
                     <Text style={{textAlign: 'center'}}><Spinner size="small" color="#2c5fb2"/></Text>
                     }
+
                     { this.state.results.map((product, index) => (
                         <Product key={index}
                             product={product}

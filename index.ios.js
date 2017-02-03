@@ -47,10 +47,12 @@ class MoutzProject extends Component {
     saveProduct = (amazonProduct) => {
 
         var product = {
+            itemId: amazonProduct.ASIN,
             title: amazonProduct.ItemAttributes.Title,
             brand: amazonProduct.ItemAttributes.Brand,
             thumbnail: amazonProduct.MediumImage.URL,
-            price: amazonProduct.ItemAttributes.ListPrice.FormattedPrice
+            price: amazonProduct.ItemAttributes.ListPrice.FormattedPrice,
+            isAvailable: false
         }
 
         this.setState({
@@ -95,7 +97,7 @@ class MoutzProject extends Component {
                                 <Icon name='ios-arrow-back'/>
                             </Button>
                             }
-                            <Title>{route.title}</Title>
+                            <Title>{route.title.substring(0, 25)}</Title>
                         </Header>
 
                         <Content>

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Alert } from 'react-native';
 import { ListItem, Text, Thumbnail } from 'native-base';
 
-export default class Product extends Component {
+export default class AmazonProduct extends Component {
 
     static propTypes = {
         product: React.PropTypes.object.isRequired,

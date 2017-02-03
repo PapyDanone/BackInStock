@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { InputGroup, Input, Content, List, ListItem, Text, Spinner } from 'native-base';
-import Product from './product';
+import AmazonProduct from './amazonProduct';
 import ProductApi from '../lib/productApi';
 
 var timer = null;
@@ -20,12 +20,11 @@ export default class SearchProduct extends Component {
 
     triggerSearch(value) {
 
-        this.setState({
-            searchText: value,
-            loading: true
-        });
+        this.setState({searchText: value});
 
-        if (value.length > 3) {
+        if (value.length >= 3) {
+
+            this.setState({loading: true});
 
             clearTimeout(timer);
             timer = setTimeout(() => {
@@ -71,11 +70,11 @@ export default class SearchProduct extends Component {
                     </ListItem>
 
                     { this.state.loading &&
-                    <Text style={{textAlign: 'center'}}><Spinner size="small" color="#2c5fb2"/></Text>
+                    <Content><Spinner size="small" color="#2c5fb2"/></Content>
                     }
 
                     { this.state.results.map((product, index) => (
-                        <Product key={index}
+                        <AmazonProduct key={index}
                             product={product}
                             saveProduct={this.props.saveProduct}
                         />

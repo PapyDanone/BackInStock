@@ -41,17 +41,17 @@ export default class ProductDetail extends Component {
     render() {
 
         if (this.state.loading) {
-            status = <Spinner size="small" />
+            status = <Spinner size="small" style={{height: 33}} />
         } else {
             if (this.state.isAvailable) {
                 status = [
-                    <Icon name="md-checkmark-circle" style={{color: '#59b53d'}}/>,
-                    <Text style={{ color: '#59b53d' }}>Available</Text>
+                    <Icon name="md-checkmark-circle" style={{color: '#59b53d'}} key={0} />,
+                    <Text style={{ color: '#59b53d' }} key={1}>Available</Text>
                 ]
             } else {
                 status = [
-                    <Icon name="md-close-circle" style={{color: '#d81111'}}/>,
-                    <Text style={{ color: '#d81111' }}>Unavailable</Text>
+                    <Icon name="md-close-circle" style={{color: '#d81111'}} key={0} />,
+                    <Text style={{ color: '#d81111' }} key={1}>Unavailable</Text>
                 ]
             }
         }

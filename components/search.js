@@ -19,12 +19,16 @@ export default class SearchProduct extends Component {
     state = {
         results: [],
         totalResults: 0,
-        searchText: ''
+        searchText: '',
+        loading: false
     };
 
     triggerSearch(value) {
 
-        this.setState({searchText: value});
+        this.setState({
+            searchText: value,
+            loading: true
+        });
 
         if (value.length > 4) {
 
@@ -37,12 +41,14 @@ export default class SearchProduct extends Component {
                     if (results.ItemSearchResponse.Items.hasOwnProperty('Item')) {
                         this.setState({
                             results: results.ItemSearchResponse.Items.Item,
-                            totalResults: results.ItemSearchResponse.Items.TotalResults
+                            totalResults: results.ItemSearchResponse.Items.TotalResults,
+                            loading: false
                         })
                     } else {
                         this.setState({
                             results: [],
-                            totalResults: 0
+                            totalResults: 0,
+                            loading: false
                         })
                     }
                 })
@@ -68,6 +74,9 @@ export default class SearchProduct extends Component {
                     <ListItem itemDivider>
                         <Text>{this.state.totalResults} Results</Text>
                     </ListItem>
+                    { this.state.loading &&
+                    <Text style={{textAlign: 'center'}}><Spinner size="small" color="#2c5fb2"/></Text>
+                    }
                     { this.state.results.map((product, index) => (
                         <Product key={index}
                             product={product}
